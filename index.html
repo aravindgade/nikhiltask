@@ -1,0 +1,261 @@
+<html>
+
+ <head>
+    <title> 121-125 pages</title>
+    <link rel="stylesheet" href="style.css">
+     <script src="main.js"></script>
+    </head>
+    <body>
+        
+        
+       <p><i>literature. We also discuss the potential gain in performance and expressiveness from
+the addition of external objects on the basis of the experiments we performed so far. We
+evaluate the approach with respect to performance results, design, and implementation
+           considerations.</i></p>
+        <br>
+        
+        
+     <center>   <h1>INTRODUCTION</h1></center>
+               <p> &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The field of knowledge discovery in databases, or Data Mining (DM), has evolved
+in the recent past to address the problem of automatic analysis and interpretation of larger
+and larger amounts of data. Different methods from fields such as machine learning,
+statistics, and databases, just to name a few, have been applied to extract knowledge from
+databases of unprecedented size, resulting in severe performance and scalability issues.
+As a consequence, a whole new branch of research is developing that aims to exploit
+parallel and distributed computation in the computationally hard part of the mining task.
+The parallelization of DM algorithms, in order to find patterns in terabyte datasets in realtime, has to confront many combined problems and constraints, e.g., the irregular,
+speculative nature of most DM algorithms, data physical management, and issues typical
+of parallel and distributed programming, like load balancing and algorithm decomposition. Fast DM of large or distributed data sets is needed for practical applications, so the
+quest is not simply for parallel algorithms of theoretical interest. To efficiently support
+the whole knowledge discovery process, we need high-performance applications that are
+easy to develop, easy to migrate to different architectures, and easy to integrate with
+other software. We foster the use of high-level parallel programming environments to
+develop portable and efficient high-performance DM tools. An essential aspect of our
+work is the use of structured parallelism, which requires the definition of the parallel
+aspects of programs by means of a fixed, formal definition language. High-level parallel
+languages of this kind shelter the application programmer from the low-level details of
+parallelism exploitation, in the same way that structured sequential programming separates the complexity of hardware and firmware programming models from sequential
+algorithm design. Structured parallel languages are a tool to simplify and streamline the
+design and implementation of parallel programs.<br>
+           
+  &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;A common issue in DM and in high-performance computing is the need to efficiently
+deal with a huge amount of data in complex memory hierarchies. Managing huge input
+data and intermediate results in the former case, and avoiding excessive amounts of
+communications in the latter case, highly complicate the algorithms and their implementation. Even if current research trends aim at pushing more and more of the mining task
+into the database management support (DBMS), and at developing massively parallel
+DBMS support, the problem of scaling up such support beyond the limits of sharedmemory multiprocessors is yet to be solved. In our view, high-level programming
+environments can also provide a higher degree of encapsulation for complex data
+management routines, which at run-time exploit the best in-core and out-of-core techniques, or interface to existing, specialized software support for the task. The enhanced
+interoperability with existing software is definitely a great advantage in developing highperformance, integrated DM applications. We will sustain our perspective by showing
+how to apply a structured parallel programming methodology based on skeletons to DM<br><br><br> 
+                    
+                    
+                    
+    
+</p>
+           
+<br>
+<br>
+<br>
+         
+<p>problems, also reporting test results about commonly used DM techniques, namely
+association rules, decision tree induction, and spatial clustering.<br>
+  &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;In the first part of the chapter, we provide a background about parallel DM and
+parallel programming. The following section analyzes the general problems of DM
+algorithms, discussing why parallel and distributed computation are needed, and what
+are the advantages and issues they bring us. The integration issues with other applications and with DBMS supports are especially important. Two sections recall the
+structured parallel programming approach and its application within the skeleton
+language of the SkIE environment. One more section is devoted to the problems coming
+from explicit management of the memory hierarchy. The first part of the chapter ends with
+the proposal of a common interface from parallel applications to external services, based
+on the object abstraction. We discuss the advantages that this new feature brings in
+terms of enhanced modularity of code, and the ability to interface with different data
+management software layers. The experiences made with the development of SkIE and
+of this kind of language extensions will be used in the design of the second-generation
+structured parallel language called ASSIST.<br>
+  &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;In the second part of the chapter, we show three well-known DM algorithms and
+their skeleton implementation. We discuss association rule mining, classification ,and
+clustering in three sections, according to a common presentation outline. We define each
+one of the DM problems, and we present a sequential algorithm that solves it. They are
+respectively Apriori, C4.5, and DBSCAN. We explain how the algorithm can be made
+parallel and its expected performance, discussing related approaches in the literature. We
+present skeleton structures that implement the parallel algorithm and describe its
+characteristics. The structured parallel C4.5 also uses a first prototype of external object
+library. A final section reports test results performed with real applications implemented
+with SkIE over a range of parallel architectures. To assess the performance and portability
+aspects of the methodology, we discuss the development costs of the prototypes. We
+conclude by pointing out future developments and open research issues.
+        </p>
+
+        <br>
+        
+      <p> <h1>PARALLEL AND DISTRIBUTED DATA MINING </h1>
+  &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The need for high-performance DM techniques grows as the size of electronic
+archives becomes larger. Some databases are also naturally distributed over several
+different sites, and cannot always be centralized to perform the DM tasks for cost reasons
+or because of practical and legal restrictions to data communication. Parallel data
+mining (PDM) and distributed data mining (DDM) are two closely related research fields
+aiming at the solution of scale and performance problems. We summarize the advantages
+they offer, looking at similarities and differences between the two approaches.<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;PDM essentially deals with parallel systems that are tightly coupled. Among the
+architectures in this class, we find shared memory multiprocessors (SMP), distributed
+memory architectures, clusters of SMP machines, or large clusters with high-speed
+interconnection networks. DDM, on the contrary, concentrates on loosely coupled
+systems such as clusters of workstations connected by a slow LAN, geographically
+distributed sites over a wide area network, or even computational grid resources. The
+common advantages that parallel and distributed DM offer come from the removal of
+sequential architecture bottlenecks. We get higher I/O bandwidth, larger memory, and<br><br>
+                   
+                  
+                 
+</p>
+<br>
+<br>
+<br>
+      
+  <p>computational power than the limits of existing sequential systems, all these factors
+leading to lower response times and improved scalability to larger data sets. The common
+drawback is that algorithm and application design becomes more complex in order to
+enjoy higher performance. We need to devise algorithms and techniques that distribute
+the I/O and the computation in parallel, minimizing communication and data transfers to
+avoid wasting resources. There is of course a part of the theory and of the techniques
+that is common to the distributed and parallel fields.<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;In this view, PDM has its central target in the exploitation of massive and possibly
+fine-grained parallelism, paying closer attention to work synchronization and load
+balancing, and exploiting high-performance I/O subsystems where available. PDM
+applications deal with large and hard problems, and they are typically designed for
+intensive mining of centralized archives.<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;By contrast, DDM techniques use a coarser computation grain and loose hypotheses on interconnection networks. DDM techniques are often targeted at distributed
+databases, where data transfers are minimized or replaced by moving results in the form
+of intermediate or final knowledge models. A widespread approach is independent
+learning integrated with summarization and meta-learning techniques. The two fields of
+PDM and DDM are not rigidly separated, however. Often the distinction between finegrained, highly synchronized parallelism, and coarse-grained parallelism gets blurred,
+depending on problem characteristics, because massively parallel architectures and
+large, loosely coupled clusters of sequential machines can be seen as extremes of a range
+of architectures that have progressively changing nature. Actually, high-performance
+computer architectures become more and more parallel, and it is definitely realistic to
+study geographically distributed DDM algorithms where the local task is performed by
+a PDM algorithm on a parallel machine.</p> <br><br>
+  <h1>Integration of Parallel Tools into Data Mining
+Environments</h1>
+        <p> &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;It is now recognized that a crucial issue in the effectiveness of DM tools is the degree
+of interoperability with conventional databases, data warehouses and OLAP services.
+Maniatty and Zaki (2000) state several requirements for parallel DM systems, and the
+issues related to the integration are clearly underlined. They call System Transparency
+the ability to easily exploit file-system access as well as databases and data warehouses.
+This feature is not only a requirement of tool interoperability, but also an option to exploit
+the best software support available in different situations. Most mining algorithms,
+especially the parallel ones, are designed for flat-file mining. While this simplification
+eases initial code development, it imposes an overhead when working with higher-level
+data management supports (e.g., data dumping to flat files and view materialization from
+DBMS). Industry standards are being developed to address this issue in the sequential
+setting, and research is ongoing about the parallel case (see for instance the book by
+Freitas and Lavington, 1998). We can distinguish three main approaches:<br>
+• &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Development of DM algorithms based on existing standard interfaces (e.g., SQL).&nbsp;Many algorithms have been rewritten or designed to work by means&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;of DBMS primitives. DBSCAN is designed assuming the use of a spatial database system. <br><br>
+        
+       </p>
+<br>
+<br>
+<br>
+       
+
+            • &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Development of a few new database-mining primitives within the frame of standard<br>
+              &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DBMS languages (a crucial issue is the expressive power that we may gain or lose).<br>
+           • &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Design of dedicated, possibly parallel mining interfaces to allow tight integration<br>
+              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;of the mining process with the data management.
+ <br>
+<br>            
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Pushing more of the computational effort into the data management support means
+exploiting the internal parallelism of modern database servers. On the other hand,
+scalability of such servers to massive parallelism is still a matter of research. While
+integration solutions are now emerging for sequential DM, this is not yet the case for
+parallel algorithms.
+<br>            
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The bandwidth of I/O subsystems in parallel architectures is theoretically much
+higher than that of sequential ones, but a conventional file system or DBMS interface
+cannot easily exploit it. We need to use new software supports that are still far from being
+standards, and sometimes are architecture-specific. Parallel file systems, high-performance interfaces to parallel database servers are important resources to exploit for PDM.
+DDM must also take into account remote data servers, data transport layers, computational grid resources, and all the issues about security, availability, and fault tolerance
+that are commonplace for large distributed systems. Our approach is to develop a parallel
+programming environment that addresses the problem of parallelism exploitation within
+algorithms, while offering uniform interfacing characteristics with respect to different
+software and hardware resources for data management. Structured parallelism will be
+used to express the algorithmic parallelism, while an object-like interface will allow access
+to a number of useful services in a portable way, including other applications and
+CORBA-operated software.</p>
+<br>
+        <h1>STRUCTURED PARALLEL PROGRAMMING</h1>
+        <p> &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Parallel programming exploits multiple computational resources in a coordinated
+effort to solve large and hard problems. In all but the really trivial cases, the classical
+problems of algorithm decomposition, load distribution, load balancing, and communication minimization have to be solved. Dealing directly with the degree of complexity
+given by communication management, concurrent behavior and architecture characteristics lead to programs that are error prone, difficult to debug and understand, and usually
+need complex performance tuning when ported to different architectures. The restricted
+approach to parallel programming takes into account these software engineering issues
+(Skillicorn & Talia, 1998). Restricted languages impose expressive constraints to the
+parallelism allowed in programs, which has to be defined using a given formalism.
+Requiring the explicit description of the parallel structure of programs leads to enhanced
+programmability, to higher semantics clearness, and to easier correctness verification.
+Compilation tools can take advantage of the explicit structure, resulting in more efficient
+compilation and automatic optimization of code. Porting sequential applications to
+parallel can proceed by progressive characterization of independent blocks of operations
+in the algorithm. They are moved to separate modules or code sections, which become
+the basic components of a high-level description. Prototype development and refinement
+is thus much faster than it is with low-level programming languages.<br><br>
+        
+        
+        </p><br><br>
+  
+       
+       <p> &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The SkIE programming environment (Vanneschi, 1998b) belongs to this line of
+research. There is, of course, not enough space here to describe in full detail all the
+characteristics of the programming environment, which builds on a research track about
+structured parallel programming, so we will only outline its essential aspects and the
+development path that we are following. SkIE aims at easing parallel software engineering
+and sequential software reuse by facilitating code integration from several different host
+languages.<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The parallel aspects of programs are specified using a skeleton-based high-level
+language, which is the subject of the next section. The key point is that parallelism is
+essentially expressed in a declarative way, while the sequential operations are coded
+using standard sequential languages. This approach preserves useful sequential software tools and eases sequential software conversion and reuse, while keeping all the
+advantages of a structured parallel approach.<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Parallel compilation is performed in a two-phase fashion, with global optimizations
+and performance tuning at the application level performed by the parallel environment,
+and local optimizations introduced by sequential compilers. The low-level support of
+parallel computation is based on industry standards like MPI, to ensure the best
+portability across different architectures.</p><br>
+    
+    <h1>The Skeleton Model in SkIE</h1>
+        <p> &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;SkIE-CL, the programming language of the SkIE environment, is a coordination
+language based on parallel skeletons. The parallel skeleton model, originally conceived
+by Cole (1989), uses a set of compositional building blocks to express the structure of
+parallel code. Skeleton models have been subsequently exploited in the design of
+structured parallel programming environment; see for instance the work of Au et al.
+(1996), or that of Serot, Ginhac, Chapuis and Derutin (2001). A coordination language
+allows the integration of separately developed software fragments and applications to
+create bigger ones. In SkIE-CL, this approach is applied to the sequential portion of
+algorithms, and it is combined with the structured description of parallelism given by
+skeletons. As shown in Danelutto (2001), skeletons are close to parallel design patterns,
+as both provide solutions to common problems in term of architectural schemes. Some
+of the main differences are that skeletons are more rigidly defined and paired with specific
+implementation solutions (usually called templates), while design patterns are more like
+recipes of solutions to be detailed. As a result, skeleton programming languages are more
+declarative in style, while existing languages based on design patterns provide a number
+of generic classes and objects to be instantiated and completed, thus requiring at least
+partial knowledge of the underlying software architecture.<br>
+ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;A program written in SkIE-CL integrates blocks of sequential code written in several
+conventional languages (C and C++, various Fortran dialects, and Java) to form parallel
+programs. The skeletons are defined as language constructs that provide the parallel
+patterns to compose the sequential blocks. The basic parallel patterns are quite simple
+because skeletons, and SkIE skeletons in particular, can be nested inside each other to
+build structures of higher complexity. The interfaces between different modules are given
+by two in and out lists of data structures for each module. These defined interfaces are
+the only mean of interaction among different modules. Each parallel module specifies the<br><br>
+            
+          
+</p>
+        
+       
+ 
+    </body>
+</html>
+        
